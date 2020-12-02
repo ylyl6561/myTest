@@ -10,6 +10,8 @@ import java.util.Scanner;
 //004
 //005
 //006
+//007
+//008
 public class StudentController {
     private StudentService studentService = new StudentService();
     private Scanner sc = new Scanner(System.in);
