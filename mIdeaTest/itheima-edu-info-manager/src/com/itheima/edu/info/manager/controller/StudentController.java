@@ -6,6 +6,7 @@ import com.itheima.edu.info.manager.service.StudentService;
 import java.util.Scanner;
 //测试1
 //develper branch
+//developer branch need to merge to preprod
 public class StudentController {
     private StudentService studentService = new StudentService();
     private Scanner sc = new Scanner(System.in);
