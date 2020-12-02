@@ -5,6 +5,7 @@ import com.itheima.edu.info.manager.service.StudentService;
 
 import java.util.Scanner;
 //测试1
+//develper branch
 public class StudentController {
     private StudentService studentService = new StudentService();
     private Scanner sc = new Scanner(System.in);
