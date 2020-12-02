@@ -4,7 +4,7 @@ import com.itheima.edu.info.manager.domain.Student;
 
 public class StudentDao {
 
-    Student[] arrStu = new Student[5];
+    private static Student[] arrStu = new Student[5];
 
     public boolean addStu(Student student) {
         int index = -1;

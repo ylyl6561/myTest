@@ -6,6 +6,8 @@ import com.itheima.edu.info.manager.service.StudentService;
 import java.util.Scanner;
 
 public class StudentController {
+    private StudentService studentService = new StudentService();
+    private Scanner sc = new Scanner(System.in);
 
     //    开启学生管理系统，并显示学生管理系统菜单
     public void start() {
@@ -24,13 +26,15 @@ public class StudentController {
                     addStu();
                     break;
                 case "2":
-                    System.out.println("删除学生");
+//                    System.out.println("删除学生");
+                    deleteStudentById();
                     break;
                 case "3":
                     System.out.println("修改学生");
                     break;
                 case "4":
-                    System.out.println("查看学生");
+//                    System.out.println("查看学生");
+                    findAllStudent();
                     break;
                 case "5":
                     System.out.println("感谢您使用学生管理系统，再见！");
@@ -45,18 +49,65 @@ public class StudentController {
 
     }
 
-    public void addStu() {
-        StudentService studentService = new StudentService();
-        Scanner sc = new Scanner(System.in);
+    public void deleteStudentById() {
+//        调用业务员中的isExists判断该学生是否存在
         String id;
 
-        while (true){
+//        如果不存在则循环输入id
+//        如果存在调用业务员中的deleteStudentById方法
+        while (true) {
             System.out.println("请输入学生id");
-             id = sc.next();
+            id = sc.next();
+            boolean exists = studentService.isExists(id);
+
+            if (exists) {
+                break;
+            } else {
+                System.out.println("该学生信息不存在，请重新输入");
+            }
+        }
+        studentService.deleteStudentById(id);
+        System.out.println("删除成功");
+    }
+
+
+    public void findAllStudent() {
+//        1. 调用业务员中的获取方法，得到学生对象数组
+        Student[] arrStu = studentService.findAllStudent();
+
+//        2.判断数组的内存地址，是否为null
+        if (arrStu == null) {
+            System.out.println("查无信息，请添加后重试");
+            return;
+
+        }
+        System.out.println("学号\t姓名\t年龄\t生日");
+//        3.遍历数组，获得学生信息并打印在控制台上
+        for (int i = 0; i < arrStu.length; i++) {
+            Student student = arrStu[i];
+            if (student == null) {
+                break;
+            } else {
+                System.out.println(student.getId() + "\t" + student.getName() + "\t" + student.getAge() + "\t" + student.getBirthday());
+            }
+
+            System.out.println();
+        }
+
+    }
+
+
+    public void addStu() {
+
+        String id;
+
+        while (true) {
+            System.out.println("请输入学生id");
+            id = sc.next();
             boolean flag = studentService.isExists(id);
-            if(flag){
+            if (flag) {
                 System.out.println("学号已被占用，请重新输入");
-            }else{
+            } else {
                 break;
             }
 
@@ -73,17 +124,14 @@ public class StudentController {
         student.setAge(age);
         student.setBirthday(birthday);
 
-
-
         boolean result = studentService.addStu(student);
 
-        if(result){
+        if (result) {
             System.out.println("添加成功");
-        }else {
+        } else {
             System.out.println("添加失败");
 
         }
-
 
 
     }
