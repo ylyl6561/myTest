@@ -4,10 +4,11 @@ import com.itheima.edu.info.manager.domain.Student;
 import com.itheima.edu.info.manager.service.StudentService;
 
 import java.util.Scanner;
-
+//测试1
 public class StudentController {
     private StudentService studentService = new StudentService();
     private Scanner sc = new Scanner(System.in);
+
 
     //    开启学生管理系统，并显示学生管理系统菜单
     public void start() {
