@@ -4,20 +4,14 @@ import com.itheima.edu.info.manager.domain.Student;
 import com.itheima.edu.info.manager.service.StudentService;
 
 import java.util.Scanner;
-//测试1
-//develper branch
-//developer branch need to merge to preprod
-//004
-//005
-//006
+
 public class StudentController {
     private StudentService studentService = new StudentService();
     private Scanner sc = new Scanner(System.in);
-
+    String id;
 
     //    开启学生管理系统，并显示学生管理系统菜单
     public void start() {
-
         Scanner sc = new Scanner(System.in);
         System.out.println("--------欢迎来到 <学生> 管理系统--------");
         System.out.println("请输入您的选择: 1.添加学生  2.删除学生  3.修改学生  4.查看学生  5.退出");
@@ -36,7 +30,8 @@ public class StudentController {
                     deleteStudentById();
                     break;
                 case "3":
-                    System.out.println("修改学生");
+//                    System.out.println("修改学生");
+                    updateStudentById();
                     break;
                 case "4":
 //                    System.out.println("查看学生");
@@ -49,33 +44,22 @@ public class StudentController {
                     System.out.println("您的输入有误，请重新输入");
                     break;
             }
-
         }
+    }
 
+    private void updateStudentById() {
+        String updateId = inputStudentId();
+        Student student = inputStudentInfo(updateId);
 
+        studentService.updateStudentById(updateId,student);
+        System.out.println("更新成功");
     }
 
     public void deleteStudentById() {
-//        调用业务员中的isExists判断该学生是否存在
-        String id;
-
-//        如果不存在则循环输入id
-//        如果存在调用业务员中的deleteStudentById方法
-        while (true) {
-            System.out.println("请输入学生id");
-            id = sc.next();
-            boolean exists = studentService.isExists(id);
-
-            if (exists) {
-                break;
-            } else {
-                System.out.println("该学生信息不存在，请重新输入");
-            }
-        }
-        studentService.deleteStudentById(id);
+        String deleteId = inputStudentId();
+        studentService.deleteStudentById(deleteId);
         System.out.println("删除成功");
     }
-
 
     public void findAllStudent() {
 //        1. 调用业务员中的获取方法，得到学生对象数组
@@ -85,14 +69,13 @@ public class StudentController {
         if (arrStu == null) {
             System.out.println("查无信息，请添加后重试");
             return;
-
         }
         System.out.println("学号\t姓名\t年龄\t生日");
 //        3.遍历数组，获得学生信息并打印在控制台上
         for (int i = 0; i < arrStu.length; i++) {
             Student student = arrStu[i];
             if (student == null) {
-                break;
+                continue;
             } else {
                 System.out.println(student.getId() + "\t" + student.getName() + "\t" + student.getAge() + "\t" + student.getBirthday());
             }
@@ -102,10 +85,7 @@ public class StudentController {
 
     }
 
-
     public void addStu() {
-
-        String id;
 
         while (true) {
             System.out.println("请输入学生id");
@@ -116,8 +96,32 @@ public class StudentController {
             } else {
                 break;
             }
-
         }
+        Student student = inputStudentInfo(id);
+        boolean result = studentService.addStu(student);
+
+        if (result) {
+            System.out.println("添加成功");
+        } else {
+            System.out.println("添加失败");
+        }
+    }
+
+    public String inputStudentId(){
+        while(true){
+            System.out.println("请输入学生id");
+            id = sc.next();
+            boolean exists = studentService.isExists(id);
+            if(exists){
+                break;
+            }else {
+                System.out.println("该学生信息不存在，请重新输入");
+            }
+        }
+        return id;
+    }
+
+    public Student inputStudentInfo(String id){
         System.out.println("请输入学生名字");
         String name = sc.next();
         System.out.println("请输入学生年龄");
@@ -129,16 +133,6 @@ public class StudentController {
         student.setName(name);
         student.setAge(age);
         student.setBirthday(birthday);
-
-        boolean result = studentService.addStu(student);
-
-        if (result) {
-            System.out.println("添加成功");
-        } else {
-            System.out.println("添加失败");
-
-        }
-
-
+        return student;
     }
 }
