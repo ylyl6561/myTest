@@ -1,10 +1,11 @@
 package com.itheima.edu.info.manager.service;
 
+import com.itheima.edu.info.manager.dao.OtherStudentDao;
 import com.itheima.edu.info.manager.dao.StudentDao;
 import com.itheima.edu.info.manager.domain.Student;
 
 public class StudentService {
-    private StudentDao studentDao = new StudentDao();
+    private OtherStudentDao studentDao = new OtherStudentDao();
     public boolean addStu(Student student) {
 
         return studentDao.addStu(student);
