@@ -2,7 +2,7 @@ package com.itheima.edu.info.manager.dao;
 
 import com.itheima.edu.info.manager.domain.Student;
 
-public class StudentDao {
+public class StudentDao implements BaseStudentDao {
 
     private static Student[] arrStu = new Student[5];
     static {
